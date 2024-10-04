@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "235687709046",
+    "project_id": "ship-tracker-firebase",
+    "storage_bucket": "ship-tracker-firebase.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:235687709046:android:9ac2ee7c3f05e5666f5257",
+        "android_client_info": {
+          "package_name": "com.example.ship_tracker"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCtYa_q6l5imQ3QRSJcfceDA5N4sdNZO0o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
