@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:ship_tracker/screens/status_statistics_screen.dart';
+import 'package:ship_tracker/widgets/card_container_widget.dart';
+import 'package:ship_tracker/widgets/card_widget.dart';
+import 'package:ship_tracker/widgets/drawer_widget.dart';
 
 class DashboardScreen extends StatelessWidget {
   static const routeName = 'dashboard_screen';
@@ -10,133 +14,73 @@ class DashboardScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        leading: IconButton(
-          icon: Icon(Icons.menu, color: Colors.black),
-          onPressed: () {},
-        ),
-        title: Text(
+        title: const Text(
           "Dashboard",
           style: TextStyle(color: Colors.black),
         ),
         actions: [
           IconButton(
-            icon: Icon(Icons.notifications, color: Colors.black),
+            icon: const Icon(Icons.notifications, color: Colors.black),
             onPressed: () {},
           ),
         ],
         centerTitle: true,
       ),
+      drawer: const DrawerWidget(),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            _buildStatisticsSection(
-              "Orders Statistics",
-              [
-                _buildStatCard("Orders Count", "3.1k", Colors.blue),
-                _buildStatCard("Total Delivery Charge", "4.8k", Colors.pink),
-              ],
-            ),
-            _buildStatisticsSection(
-              "Finance Statistics",
-              [
-                _buildStatCard("Invoice Value", "234.1k", Colors.green),
-                _buildStatCard("Pending Invoice", "122.3k", Colors.yellow),
-                _buildStatCard("Paid Invoice", "678.7k", Colors.orange),
-                _buildStatCard("Approved Invoice", "101.1k", Colors.lightBlue),
-              ],
-            ),
-            _buildStatusStatistics(),
+            const CardContainerWidget(title: "Order Statistics", cards: [
+              CardWidget(
+                title: "Orders Count",
+                value: "3.1k",
+                // color: Colors.blue,
+                iconPath: "assets/icons/warehouse.png",
+              ),
+              CardWidget(
+                title: "Total Delivery Charge",
+                value: "4.8k",
+                // color: Colors.pink,
+                iconPath: "assets/icons/delivery.png",
+              ),
+            ]),
+            const CardContainerWidget(title: "Order Statistics", cards: [
+              CardWidget(
+                title: "Invoice Value",
+                value: "234.1k",
+                // color: Colors.green,
+                iconPath: "assets/icons/invoice.png",
+              ),
+              CardWidget(
+                title: "Pendind Invoice",
+                value: "112.3k",
+                // color: Colors.yellow,
+                iconPath: "assets/icons/pending-invoice.png",
+              ),
+              CardWidget(
+                title: "Paid Invoice",
+                value: "678.7k",
+                // color: Colors.orange,
+                iconPath: "assets/icons/paid-invoice-value.png",
+              ),
+              CardWidget(
+                title: "Approved Invoice",
+                value: "101.1k",
+                // color: Colors.lightBlue,
+                iconPath: "assets/icons/done.png",
+              ),
+            ]),
+            _buildStatusStatistics(context),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildStatisticsSection(String title, List<Widget> cards) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          title,
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-        ),
-        SizedBox(height: 10),
-        GridView.count(
-          crossAxisCount: 2,
-          shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
-          crossAxisSpacing: 10,
-          mainAxisSpacing: 10,
-          childAspectRatio: 3 / 2,
-          children: cards,
-        ),
-        SizedBox(height: 20),
-      ],
-    );
-  }
-
-  Widget _buildStatCard(String title, String value, Color color) {
+  Widget _buildStatusStatistics(context) {
     return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(10),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.shade200,
-            spreadRadius: 2,
-            blurRadius: 5,
-          ),
-        ],
-      ),
-      padding: EdgeInsets.all(13),
-      child: Row(
-        crossAxisAlignment:
-            CrossAxisAlignment.start, // Align items to the start
-        children: [
-          // Left side icon
-          SizedBox(
-            width: 40, // Adjust width as necessary
-            child: Image.asset(
-              "assets/icons/orders-count.png",
-              fit: BoxFit.contain,
-            ),
-          ),
-          const SizedBox(width: 16), // Space between icon and text
-
-          // Right side content
-          Expanded(
-            child: Column(
-              crossAxisAlignment:
-                  CrossAxisAlignment.start, // Align text to the start
-              children: [
-                Text(
-                  value,
-                  style: TextStyle(
-                    color: color,
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Text(
-                  title,
-                  style: TextStyle(
-                    color: Colors.grey.shade600,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildStatusStatistics() {
-    return Container(
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(10),
@@ -151,7 +95,7 @@ class DashboardScreen extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Row(
+          const Row(
             children: [
               Icon(Icons.bar_chart, color: Colors.blue, size: 40),
               SizedBox(width: 10),
@@ -166,8 +110,10 @@ class DashboardScreen extends StatelessWidget {
             ],
           ),
           TextButton(
-            onPressed: () {},
-            child: Text(
+            onPressed: () {
+              Navigator.pushNamed(context, StatusStatisticsScreen.routeName);
+            },
+            child: const Text(
               "Show Details",
               style: TextStyle(
                 color: Colors.blue,
