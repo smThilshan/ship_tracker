@@ -30,7 +30,7 @@ class OrderCardWidget extends StatelessWidget {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true, // Allows for full-screen modal
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       builder: (BuildContext context) {
@@ -44,14 +44,14 @@ class OrderCardWidget extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    const Text(
                       'View Order Details',
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     _buildOrderDetailsSection(),
                   ],
                 ),
@@ -64,7 +64,7 @@ class OrderCardWidget extends StatelessWidget {
   }
 
   Widget _buildOrderDetailsSection() {
-    return Column(
+    return const Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // Order Info
@@ -122,7 +122,7 @@ class OrderCardWidget extends StatelessWidget {
           // Order Number on the left
           Text(
             orderNumber,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
               color: Colors.black,
@@ -148,7 +148,7 @@ class OrderCardWidget extends StatelessWidget {
               const SizedBox(width: 8), // Spacing between badge and icon
               // Hamburger Icon on the right
               IconButton(
-                icon: Icon(Icons.menu),
+                icon: const Icon(Icons.menu),
                 onPressed: () {
                   _showOrderDetails(context); // Show modal when pressed
                 },

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class MyBigBtn extends StatelessWidget {
   final String text;
   final VoidCallback? onTap;
-  MyBigBtn({super.key, required this.text, this.onTap});
+  const MyBigBtn({super.key, required this.text, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class MyBigBtn extends StatelessWidget {
         child: Center(
           child: Text(
             text,
-            style: TextStyle(
+            style: const TextStyle(
               fontFamily: 'OpenSans',
               fontSize: 16,
               fontWeight: FontWeight.bold,

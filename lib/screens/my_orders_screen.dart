@@ -17,62 +17,66 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
+        backgroundColor: Colors.white, // AppBar background color
+        elevation: 0, // No shadow
         title: const Text(
-          "My Orders",
+          "My Orders", // Title of the screen
           style: TextStyle(color: Colors.black),
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.notifications, color: Colors.black),
-            onPressed: () {},
+            icon: const Icon(Icons.notifications,
+                color: Colors.black), // Notification icon
+            onPressed: () {}, // Placeholder for notification action
           ),
         ],
-        centerTitle: true,
+        centerTitle: true, // Center the title
       ),
-      drawer: const DrawerWidget(),
+      drawer: const DrawerWidget(), // Navigation drawer
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0), // Padding around the content
         child: Column(
           children: [
             CardContainerWidget(title: "", cards: [
               CardWidget(
-                title: "All Orders",
-                value: "3.1k",
-                iconPath: "assets/icons/warehouse.png",
+                title: "All Orders", // Card title
+                value: "3.1k", // Card value
+                iconPath: "assets/icons/warehouse.png", // Card icon
                 onPressed: () {
+                  // Action when card is pressed
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => AllOrdersScreen()),
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            const AllOrdersScreen()), // Navigate to AllOrdersScreen
                   );
                 },
               ),
-              CardWidget(
+              const CardWidget(
                   title: "Draft",
                   value: "3.1k",
                   iconPath: "assets/icons/draft.png"),
-              CardWidget(
+              const CardWidget(
                   title: "Confirmed",
                   value: "234.1k",
                   iconPath: "assets/icons/confirm.png"),
-              CardWidget(
+              const CardWidget(
                   title: "Cancelled",
                   value: "122.3k",
                   iconPath: "assets/icons/cancel.png"),
-              CardWidget(
+              const CardWidget(
                   title: "Delivered",
                   value: "3.1k",
                   iconPath: "assets/icons/delivered.png"),
-              CardWidget(
+              const CardWidget(
                   title: "Partially Delivered",
                   value: "3.1k",
                   iconPath: "assets/icons/partially-delivered.png"),
-              CardWidget(
+              const CardWidget(
                   title: "Rescheduled",
                   value: "234.1k",
                   iconPath: "assets/icons/reschedule.png"),
-              CardWidget(
+              const CardWidget(
                   title: "Failed To Deliver",
                   value: "122.3k",
                   iconPath: "assets/icons/failed-to-deliver.png"),

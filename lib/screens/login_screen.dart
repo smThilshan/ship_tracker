@@ -24,62 +24,19 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _rememberMe = false;
   bool _isLoading = false;
 
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  // final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  // Future<void> _login() async {
-  //   if (!__loginFormKey.currentState!.validate()) return;
-
-  //   setState(() {
-  //     _isLoading = true;
-  //   });
-
-  //   try {
-  //     await _auth.signInWithEmailAndPassword(
-  //       email: email.text.trim(),
-  //       password: password.text.trim(),
-  //     );
-
-  //     // Navigate to the dashboard or home screen after successful login
-  //     Navigator.pushReplacementNamed(
-  //         context, '/dashboard'); // Replace with your actual route
-  //   } on FirebaseAuthException catch (e) {
-  //     String message;
-  //     switch (e.code) {
-  //       case 'user-not-found':
-  //         message = 'No user found with this email.';
-  //         break;
-  //       case 'wrong-password':
-  //         message = 'Incorrect password.';
-  //         break;
-  //       default:
-  //         message = 'An error occurred. Please try again.';
-  //     }
-
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       SnackBar(
-  //         content: Text(message),
-  //         backgroundColor: Colors.red,
-  //       ),
-  //     );
-  //   } finally {
-  //     setState(() {
-  //       _isLoading = false;
-  //     });
-  //   }
-  // }
   Future<void> _login() async {
-    print("Pressed");
-    if (!__loginFormKey.currentState!.validate()) return;
+    if (!__loginFormKey.currentState!.validate()) {
+      // Stop here if form is not valid
+      return;
+    }
 
     setState(() {
       _isLoading = true;
     });
 
     try {
-      // Use hardcoded email and password for testing
-      const String testEmail = "shan@gmail.com";
-      const String testPassword = "dfdsf";
-
       final response = await http.post(
         Uri.parse(
             'https://1c87c801-5105-479a-926c-f631d15bdef9.mock.pstmn.io/login'), // Updated URL
@@ -94,51 +51,46 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       );
 
-      print("Response status: ${response.statusCode}");
-      print("Response body: ${response.body}");
-
       if (response.statusCode == 200) {
-        // Handle plain text response
-        final message =
-            response.body; // Use the body directly since it's plain text
-        print(message); // Log success message
+        // Assume response body contains a success message or token
+        // final message = response.body;
+        // print("Success: $message");
 
-        // Store email and password in shared preferences if 'Remember Me' is checked
         if (_rememberMe) {
           final prefs = await SharedPreferences.getInstance();
-          await prefs.setString('email', testEmail);
-          await prefs.setString(
-              'password', testPassword); // Securely store only if necessary.
+          await prefs.setString('email', email.text);
+          await prefs.setString('password', password.text);
+        }
+        if (mounted) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const DashboardScreen()),
+          );
         }
 
-        // Navigate to the dashboard
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => DashboardScreen()),
-        );
-
-        // Clear the text fields after login
         email.clear();
         password.clear();
       } else {
-        // Handle error
-        final message =
-            response.body; // Use the body directly since it's plain text
+        // Log or handle specific errors returned by API
+        final errorMessage = response.body;
+
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(message),
+            content: Text(errorMessage),
             backgroundColor: Colors.red,
           ),
         );
       }
     } catch (error) {
-      print(error); // Log any other error
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('An error occurred. Please try again.'),
-          backgroundColor: Colors.red,
-        ),
-      );
+      // print("Error: $error");
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('An error occurred. Please try again.'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
     } finally {
       setState(() {
         _isLoading = false;
@@ -190,7 +142,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Padding(
-                        padding: EdgeInsets.fromLTRB(30, 0, 30, 30),
+                        padding: const EdgeInsets.fromLTRB(30, 0, 30, 30),
                         child: Form(
                           key: __loginFormKey,
                           child: Column(
@@ -242,7 +194,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                               const SizedBox(height: 15),
                               _isLoading
-                                  ? CircularProgressIndicator()
+                                  ? const CircularProgressIndicator()
                                   : MyBigBtn(
                                       text: "Login",
                                       onTap: _login,

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:ship_tracker/screens/dashboard_screen.dart';
+import 'package:ship_tracker/screens/login_screen.dart';
 import 'package:ship_tracker/screens/my_orders_screen.dart';
 
 class DrawerWidget extends StatelessWidget {
-  const DrawerWidget({Key? key});
+  const DrawerWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -42,17 +43,17 @@ class DrawerWidget extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: Icon(Icons.shopping_bag),
-            title: Text('My Orders'),
+            leading: const Icon(Icons.shopping_bag),
+            title: const Text('My Orders'),
             onTap: () {
               Navigator.pushNamed(context, MyOrdersScreen.routeName);
             },
           ),
           ListTile(
-            leading: Icon(Icons.logout_sharp),
-            title: Text('Logout'),
+            leading: const Icon(Icons.logout_sharp),
+            title: const Text('Logout'),
             onTap: () {
-              // logout item action here
+              Navigator.pushNamed(context, LoginScreen.routeName);
             },
           ),
         ],

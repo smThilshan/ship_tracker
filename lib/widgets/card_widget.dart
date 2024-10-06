@@ -29,7 +29,7 @@ class CardWidget extends StatelessWidget {
             ),
           ],
         ),
-        padding: EdgeInsets.all(13),
+        padding: const EdgeInsets.all(13),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -50,8 +50,7 @@ class CardWidget extends StatelessWidget {
                 children: [
                   Text(
                     value,
-                    style: TextStyle(
-                      // color: color,
+                    style: const TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
                     ),

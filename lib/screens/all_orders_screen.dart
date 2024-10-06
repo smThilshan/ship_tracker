@@ -22,7 +22,7 @@ class _AllOrdersScreenState extends State<AllOrdersScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('All Orders'),
+        title: const Text('All Orders'),
       ),
       body: ListView.builder(
         itemCount: orders.length,

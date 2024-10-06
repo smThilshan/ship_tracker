@@ -13,8 +13,8 @@ class MyTextBox extends StatelessWidget {
     this.boolValue,
     this.isPassword,
     this.validator,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

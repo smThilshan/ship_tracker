@@ -12,24 +12,24 @@ class ForgotPasswordScreen extends StatefulWidget {
 }
 
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
-  TextEditingController emailController = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
+  TextEditingController emailController =
+      TextEditingController(); // Controller for the email input
+  final _formKey = GlobalKey<FormState>(); // Key for the form
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.blue,
-        // title: const Text("Forgot Password"),
+        backgroundColor: Colors.blue, // App bar color
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(20.0),
+          padding: const EdgeInsets.all(20.0), // Padding around the content
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 30),
+              const SizedBox(height: 30), // Spacer
               const Text(
                 "Forgot Password?",
                 style: TextStyle(
@@ -38,7 +38,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   color: Colors.black,
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 20), // Spacer
               const Text(
                 "Enter your email and we will send you instructions to reset your password.",
                 style: TextStyle(
@@ -46,34 +46,17 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   color: Colors.black54,
                 ),
               ),
-              const SizedBox(height: 40),
+              const SizedBox(height: 40), // Spacer
               Form(
-                key: _formKey,
+                key: _formKey, // Assigning the form key
                 child: Column(
                   children: [
-                    // TextFormField(
-                    //   controller: emailController,
-                    //   keyboardType: TextInputType.emailAddress,
-                    //   decoration: InputDecoration(
-                    //     labelText: 'Email',
-                    //     border: OutlineInputBorder(
-                    //       borderRadius: BorderRadius.circular(8),
-                    //     ),
-                    //   ),
-                    //   validator: (value) {
-                    //     if (value == null || value.isEmpty) {
-                    //       return 'Please enter your email';
-                    //     } else if (!RegExp(r'^[^@]+@[^@]+\.[^@]+')
-                    //         .hasMatch(value)) {
-                    //       return 'Please enter a valid email';
-                    //     }
-                    //     return null;
-                    //   },
-                    // ),
-                    MyTextBox(controller: emailController, text: "Email"),
-                    const SizedBox(height: 20),
-                    MyBigBtn(
-                      text: 'Submit',
+                    MyTextBox(
+                        controller: emailController,
+                        text: "Email"), // Email input field
+                    const SizedBox(height: 20), // Spacer
+                    const MyBigBtn(
+                      text: 'Submit', // Submit button
                     ),
                   ],
                 ),
