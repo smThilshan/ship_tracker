@@ -95,3 +95,5 @@ In your app, update the API endpoints to point to the mock server URL.flutter ru
 ##### Note
 
 While I have implemented basic API functionalities using mock servers and have experience with data handling, I do not have extensive experience in developing APIs from scratch. However, I am eager to learn and improve my skills in this area. The implementation of API features in this project is based on available documentation and resources.
+
+And I don't have much more experience on Bloc so I have used Provider. Incase Bloc pattern is must i am eager to learn and execute the company needs.
