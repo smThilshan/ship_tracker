@@ -2,14 +2,13 @@ import 'package:flutter/material.dart';
 
 class MyBigBtn extends StatelessWidget {
   final String text;
-  MyBigBtn({super.key, required this.text});
+  final VoidCallback? onTap;
+  MyBigBtn({super.key, required this.text, this.onTap});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        // Add login logic here
-      },
+      onTap: onTap,
       child: Container(
         width: double.infinity,
         padding: const EdgeInsets.all(13),

@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:ship_tracker/screens/dashboard_screen.dart';
 import 'package:ship_tracker/screens/forgot_password_screen.dart';
 import 'package:ship_tracker/widgets/my_big_btn.dart';
 import 'package:ship_tracker/widgets/my_textbox.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   static const routeName = 'login_screen';
@@ -17,6 +22,129 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController password = TextEditingController();
   final __loginFormKey = GlobalKey<FormState>();
   bool _rememberMe = false;
+  bool _isLoading = false;
+
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  // Future<void> _login() async {
+  //   if (!__loginFormKey.currentState!.validate()) return;
+
+  //   setState(() {
+  //     _isLoading = true;
+  //   });
+
+  //   try {
+  //     await _auth.signInWithEmailAndPassword(
+  //       email: email.text.trim(),
+  //       password: password.text.trim(),
+  //     );
+
+  //     // Navigate to the dashboard or home screen after successful login
+  //     Navigator.pushReplacementNamed(
+  //         context, '/dashboard'); // Replace with your actual route
+  //   } on FirebaseAuthException catch (e) {
+  //     String message;
+  //     switch (e.code) {
+  //       case 'user-not-found':
+  //         message = 'No user found with this email.';
+  //         break;
+  //       case 'wrong-password':
+  //         message = 'Incorrect password.';
+  //         break;
+  //       default:
+  //         message = 'An error occurred. Please try again.';
+  //     }
+
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       SnackBar(
+  //         content: Text(message),
+  //         backgroundColor: Colors.red,
+  //       ),
+  //     );
+  //   } finally {
+  //     setState(() {
+  //       _isLoading = false;
+  //     });
+  //   }
+  // }
+  Future<void> _login() async {
+    print("Pressed");
+    if (!__loginFormKey.currentState!.validate()) return;
+
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      // Use hardcoded email and password for testing
+      const String testEmail = "shan@gmail.com";
+      const String testPassword = "dfdsf";
+
+      final response = await http.post(
+        Uri.parse(
+            'https://1c87c801-5105-479a-926c-f631d15bdef9.mock.pstmn.io/login'), // Updated URL
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode(
+          <String, String>{
+            'email': email.text.trim(),
+            'password': password.text.trim(),
+          },
+        ),
+      );
+
+      print("Response status: ${response.statusCode}");
+      print("Response body: ${response.body}");
+
+      if (response.statusCode == 200) {
+        // Handle plain text response
+        final message =
+            response.body; // Use the body directly since it's plain text
+        print(message); // Log success message
+
+        // Store email and password in shared preferences if 'Remember Me' is checked
+        if (_rememberMe) {
+          final prefs = await SharedPreferences.getInstance();
+          await prefs.setString('email', testEmail);
+          await prefs.setString(
+              'password', testPassword); // Securely store only if necessary.
+        }
+
+        // Navigate to the dashboard
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => DashboardScreen()),
+        );
+
+        // Clear the text fields after login
+        email.clear();
+        password.clear();
+      } else {
+        // Handle error
+        final message =
+            response.body; // Use the body directly since it's plain text
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(message),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    } catch (error) {
+      print(error); // Log any other error
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('An error occurred. Please try again.'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +161,7 @@ class _LoginScreenState extends State<LoginScreen> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Expanded(
+              const Expanded(
                 flex: 2,
                 child: Center(
                   child: Text(
@@ -80,9 +208,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   return null;
                                 },
                               ),
-
                               const SizedBox(height: 10),
-
                               MyTextBox(
                                 controller: password,
                                 text: "Password",
@@ -90,14 +216,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
                                     return 'Please enter your password';
-                                  } else if (!RegExp(r'^[^@]+@[^@]+\.[^@]+')
-                                      .hasMatch(value)) {
-                                    return 'Please enter correct password';
                                   }
                                   return null;
                                 },
                               ),
-
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
@@ -118,40 +240,16 @@ class _LoginScreenState extends State<LoginScreen> {
                                   ),
                                 ],
                               ),
-
-                              // SizedBox(
-                              //   width: double.infinity,
-                              //   child: ElevatedButton(
-                              //     onPressed: () {
-                              //       // Navigator.pushNamed(context, '/signup');
-                              //       // Navigator.pushNamed(
-                              //       //     context, HomeScreen.routeName);
-                              //     },
-                              //     style: ElevatedButton.styleFrom(
-                              //       foregroundColor: Colors.white,
-                              //       backgroundColor: Colors.blue.shade400,
-                              //       padding: const EdgeInsets.all(13),
-                              //       shape: RoundedRectangleBorder(
-                              //         borderRadius: BorderRadius.circular(8),
-                              //       ),
-                              //     ),
-                              //     child: const Text(
-                              //       'Login',
-                              //       style: TextStyle(
-                              //         fontFamily: 'OpenSans',
-                              //         fontSize: 16,
-                              //         fontWeight: FontWeight.bold,
-                              //       ),
-                              //     ),
-                              //   ),
-                              // ),
-                              // Gradient Login Button
-                              MyBigBtn(
-                                text: "Login",
-                              ),
-                              SizedBox(
-                                height: 15,
-                              ),
+                              const SizedBox(height: 15),
+                              _isLoading
+                                  ? CircularProgressIndicator()
+                                  : MyBigBtn(
+                                      text: "Login",
+                                      onTap: _login,
+                                      // print("print called");
+                                      // Add onTap for button action
+                                    ),
+                              const SizedBox(height: 15),
                               Center(
                                 child: GestureDetector(
                                   onTap: () {
@@ -159,20 +257,18 @@ class _LoginScreenState extends State<LoginScreen> {
                                         ForgotPasswordScreen.routeName);
                                   },
                                   child: const Text(
-                                    "Forgot Password ?",
+                                    "Forgot Password?",
                                     style: TextStyle(
                                       color: Colors.blue,
                                     ),
                                   ),
                                 ),
                               ),
-                              // Add image here
+                              const SizedBox(height: 15),
                               Image.asset(
                                 'assets/images/delivery-image.png', // Replace with your actual image path
-                                height:
-                                    230, // Set height of the image as needed
-                                fit: BoxFit
-                                    .cover, // Set how the image should be fitted
+                                height: 200,
+                                fit: BoxFit.cover,
                               ),
                             ],
                           ),
